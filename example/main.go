@@ -9,8 +9,8 @@ import (
 	"os"
 	"testing/fstest"
 
-	"github.com/tetratelabs/wazero"
 	protoc "github.com/aperturerobotics/go-protoc-wasi"
+	"github.com/tetratelabs/wazero"
 )
 
 func main() {

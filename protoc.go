@@ -257,7 +257,6 @@ func (p *Protoc) hostPluginCommunicate(ctx context.Context, mod api.Module, stac
 
 	// Call the plugin handler
 	output, err := p.pluginHandler.Communicate(ctx, program, searchPath, inputData)
-
 	if err != nil {
 		// Write error message
 		errMsg := err.Error()

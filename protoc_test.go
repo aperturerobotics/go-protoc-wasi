@@ -102,7 +102,7 @@ message Person {
 	// Create in-memory filesystem with the .proto file and output directory
 	memFS := fstest.MapFS{
 		"test.proto": &fstest.MapFile{Data: []byte(protoContent)},
-		"out":        &fstest.MapFile{Mode: 0755 | 0x80000000}, // directory
+		"out":        &fstest.MapFile{Mode: 0o755 | 0x80000000}, // directory
 	}
 
 	var stdout, stderr bytes.Buffer
