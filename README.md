@@ -190,4 +190,4 @@ go test -v ./...
 
 ## License
 
-Apache 2.0 (same as Protocol Buffers)
+MIT
