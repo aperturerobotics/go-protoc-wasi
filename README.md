@@ -191,3 +191,5 @@ go test -v ./...
 ## License
 
 MIT
+
+protoc.wasm is covered by the [Apache 2.0 license](https://github.com/protocolbuffers/protobuf/blob/main/LICENSE) from the protobuf project.
