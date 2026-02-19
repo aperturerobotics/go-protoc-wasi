@@ -15,9 +15,12 @@
     },
     {
       "matchManagers": ["gomod"],
-      "matchPackageNames": [
-        "github.com/aperturerobotics/go-protoc-wasi"
-      ],
+      "matchPackageNames": ["github.com/aperturerobotics/go-protoc-wasi"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["golang"],
       "enabled": false
     }
   ]
