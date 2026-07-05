@@ -1,13 +1,11 @@
 # go-protoc-wasi
 
-[![GoDoc Widget]][GoDoc] [![Go Report Card Widget]][Go Report Card]
+[![GoDoc Widget]][GoDoc]
 
 > A Go module that embeds the Protocol Buffers compiler (protoc) as a WASI WebAssembly reactor.
 
 [GoDoc]: https://godoc.org/github.com/aperturerobotics/go-protoc-wasi
 [GoDoc Widget]: https://godoc.org/github.com/aperturerobotics/go-protoc-wasi?status.svg
-[Go Report Card Widget]: https://goreportcard.com/badge/github.com/aperturerobotics/go-protoc-wasi
-[Go Report Card]: https://goreportcard.com/report/github.com/aperturerobotics/go-protoc-wasi
 
 ## Related Projects
 
