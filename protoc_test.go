@@ -3,6 +3,8 @@ package protoc
 import (
 	"bytes"
 	"context"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"testing/fstest"
@@ -72,11 +74,11 @@ func TestProtocHelp(t *testing.T) {
 
 	output := stdout.String()
 
-	// Check for C++ generator (the only built-in generator)
-	if !strings.Contains(output, "--cpp_out") {
-		t.Errorf("expected help output to contain '--cpp_out'")
+	for _, flag := range []string{"--cpp_out", "--csharp_out", "--python_out"} {
+		if !strings.Contains(output, flag) {
+			t.Errorf("expected help output to contain %q", flag)
+		}
 	}
-
 	// Check for plugin support
 	if !strings.Contains(output, "--plugin") {
 		t.Errorf("expected help output to contain '--plugin'")
@@ -244,4 +246,72 @@ message Person {
 
 	t.Logf("Exit code: %d (expected non-zero due to read-only fs)", exitCode)
 	t.Logf("stderr: %s", stderrStr)
+}
+
+func TestProtocBuiltInGenerators(t *testing.T) {
+	for _, tt := range []struct {
+		name string
+		flag string
+		file string
+	}{
+		{name: "CSharp", flag: "--csharp_out=/out", file: "Test.cs"},
+		{name: "Python", flag: "--python_out=/out", file: "test_pb2.py"},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx := context.Background()
+			r := wazero.NewRuntime(ctx)
+			defer r.Close(ctx)
+
+			root := t.TempDir()
+			if err := os.WriteFile(filepath.Join(root, "test.proto"), []byte(`
+syntax = "proto3";
+package test;
+
+message Person {
+  string name = 1;
+  int32 age = 2;
+}
+`), 0o600); err != nil {
+				t.Fatal(err)
+			}
+			if err := os.Mkdir(filepath.Join(root, "out"), 0o700); err != nil {
+				t.Fatal(err)
+			}
+
+			var stderr bytes.Buffer
+			p, err := NewProtoc(ctx, r, &Config{
+				Stderr:   &stderr,
+				FSConfig: wazero.NewFSConfig().WithDirMount(root, "/"),
+			})
+			if err != nil {
+				t.Fatalf("NewProtoc failed: %v", err)
+			}
+			defer p.Close(ctx)
+
+			if err := p.Init(ctx); err != nil {
+				t.Fatalf("Init failed: %v", err)
+			}
+
+			exitCode, err := p.Run(ctx, []string{
+				"protoc",
+				tt.flag,
+				"-I/",
+				"/test.proto",
+			})
+			if err != nil {
+				t.Fatalf("Run failed: %v", err)
+			}
+			if exitCode != 0 {
+				t.Fatalf("unexpected exit code %d: %s", exitCode, stderr.String())
+			}
+
+			generated, err := os.ReadFile(filepath.Join(root, "out", tt.file))
+			if err != nil {
+				t.Fatalf("read generated file: %v", err)
+			}
+			if !bytes.Contains(generated, []byte("Person")) {
+				t.Errorf("generated %s does not contain Person", tt.file)
+			}
+		})
+	}
 }

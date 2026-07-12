@@ -39,7 +39,9 @@ Unlike the standard WASI "command" model that blocks in `_start()`, the reactor 
 
 ### Built-in Generators
 
-The WASM binary includes only the C++ generator (`--cpp_out`) to minimize size. All other languages (Go, Java, Python, etc.) are supported via plugins through the host's plugin handler.
+The WASM binary includes the C++, C#, and Python generators (`--cpp_out`,
+`--csharp_out`, and `--python_out`). Other languages, including Go and Java,
+use plugins through the host's plugin handler.
 
 ### Plugin Support
 
@@ -47,7 +49,7 @@ External protoc plugins (like `protoc-gen-go`) are supported via host function i
 
 ## Features
 
-- Embeds protoc as a 3.1MB WASI WebAssembly binary
+- Embeds protoc as a 4.1MB WASI WebAssembly binary
 - Reactor model for multiple compilations per instance
 - Plugin support via host function imports
 - Virtual filesystem support for .proto files
@@ -171,8 +173,13 @@ ABSEIL_SOURCE=/path/to/abseil-cpp ./build-abseil-wasi.sh
 # Build protoc for WASI
 ./build-wasi.sh
 
-# Output: build-wasi/protoc.wasm (approximately 3.1MB)
+# Output: build-wasi/protoc.wasm (approximately 4.1MB)
 ```
+
+The embedded artifact is built from protobuf revision
+`fc1cf1dcf6b4c8905e22c4c19758c4d340b20bc1` with Abseil
+`d38452e1a63686f9a2bd1895757fd6c8c585530a` and WASI SDK 29.0. Its SHA-256 is
+`0be24a91eb3c593db7a04f8d07fe33ec3364d82648430ab74925d0f61691b2f1`.
 
 ### Build Requirements
 
