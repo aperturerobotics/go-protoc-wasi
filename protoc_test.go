@@ -74,7 +74,7 @@ func TestProtocHelp(t *testing.T) {
 
 	output := stdout.String()
 
-	for _, flag := range []string{"--cpp_out", "--csharp_out", "--python_out"} {
+	for _, flag := range []string{"--cpp_out", "--csharp_out", "--python_out", "--pyi_out"} {
 		if !strings.Contains(output, flag) {
 			t.Errorf("expected help output to contain %q", flag)
 		}
@@ -256,6 +256,7 @@ func TestProtocBuiltInGenerators(t *testing.T) {
 	}{
 		{name: "CSharp", flag: "--csharp_out=/out", file: "Test.cs"},
 		{name: "Python", flag: "--python_out=/out", file: "test_pb2.py"},
+		{name: "Python typing stubs", flag: "--pyi_out=/out", file: "test_pb2.pyi"},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			ctx := context.Background()

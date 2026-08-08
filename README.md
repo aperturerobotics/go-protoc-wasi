@@ -39,8 +39,8 @@ Unlike the standard WASI "command" model that blocks in `_start()`, the reactor 
 
 ### Built-in Generators
 
-The WASM binary includes the C++, C#, and Python generators (`--cpp_out`,
-`--csharp_out`, and `--python_out`). Other languages, including Go and Java,
+The WASM binary includes the C++, C#, Python, and Python typing-stub generators
+(`--cpp_out`, `--csharp_out`, `--python_out`, and `--pyi_out`). Other languages, including Go and Java,
 use plugins through the host's plugin handler.
 
 ### Plugin Support
@@ -177,9 +177,9 @@ ABSEIL_SOURCE=/path/to/abseil-cpp ./build-abseil-wasi.sh
 ```
 
 The embedded artifact is built from protobuf revision
-`fc1cf1dcf6b4c8905e22c4c19758c4d340b20bc1` with Abseil
+`47cced4c3e9a13f1f73c7ab5d8319c109b0d279d` with Abseil
 `d38452e1a63686f9a2bd1895757fd6c8c585530a` and WASI SDK 29.0. Its SHA-256 is
-`0be24a91eb3c593db7a04f8d07fe33ec3364d82648430ab74925d0f61691b2f1`.
+`05c7136d441d7ce0de8d1655d19e23e3fd0eb8ffc8dca8a48c85682eb6e3e8c1`.
 
 ### Build Requirements
 
